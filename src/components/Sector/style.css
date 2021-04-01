@@ -1,0 +1,25 @@
+.sector {
+    position: absolute;
+    margin-left: 0.2vw;
+    margin-bottom: 0.1vh;
+    padding: 0.2vh;
+    border-radius: 3%;
+    font-size: 12px;
+    text-align: left;
+    border-radius: 2px;
+}
+.sector:hover {
+    opacity: 0.6;
+}
+
+.sector.sector_type0 {
+    background-color: aqua;
+}
+
+.sector.sector_type1 {
+    background-color: rgb(238, 144, 238);
+}
+
+.sector.sector_type2 {
+    background-color: yellowgreen;
+}
