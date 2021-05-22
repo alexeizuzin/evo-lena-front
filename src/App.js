@@ -1,12 +1,21 @@
 // import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
 
+import Panel from './components/Panel/Panel';
 import Field from './components/Field/Field';
 
 function App() {
+  const [isSelectable, setIsSelectable] = useState(false);
   return (
     <div className="App">
-      <Field/>
+      <Panel
+        setIsSelectable={setIsSelectable}
+      />
+      <Field
+        isSelectable={isSelectable}
+        setIsSelectable={setIsSelectable}
+      />
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>

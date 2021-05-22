@@ -1,15 +1,21 @@
-
 import { useCallback, useEffect, useState } from 'react';
 import Sector from '../Sector/Sector';
 
 import './style.css';
 
-const apiPath = 'http://v296823.hosted-by-vdsina.ru:5000/';
+const apiPath = ''; // http://v296823.hosted-by-vdsina.ru:5000/
 const sectorsPath = 'sectors';
 
-function Field() {
+function Field({
+  isSelectable,
+  setIsSelectable,
+}) {
   const [sectors, setSectors] = useState([]);
   // console.log(' log 1: ', apiPath + sectorsPath);
+  const handleSectorClick = (sector) => {
+    console.log('Sector: ', sector);
+    setIsSelectable(false);
+  }
 
   const updateSectors = useCallback(() => {
     fetch( apiPath + sectorsPath + `?${Math.random()}`, {})
@@ -31,8 +37,21 @@ function Field() {
   }, [updateSectors]);
 
   return (
-    <div className="field">
-      { sectors.map(sector => <Sector key={sector.id} data={sector}/>) }
+    <div className={'field' + (isSelectable ? ' field_selectable' : '')}>
+      { sectors.map(sector => (
+        <Sector
+          onClick={() => { handleSectorClick(sector) }}
+          key={sector.id}
+          data={sector}
+        />
+      )) }
+      {
+        !sectors.length && (
+          <div className="field__message">
+            Загрузка ...
+          </div>
+        )
+      }
     </div>
   );
 }

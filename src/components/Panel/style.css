@@ -1,0 +1,46 @@
+.panel {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 10px;
+    color: #ffffff;
+    background-color: slateblue;
+}
+
+.panel_error {
+    background-color: red;
+}
+
+.panel__link {
+    border-bottom: dashed;
+    cursor: pointer;
+}
+
+.panel__link:hover {
+    color: aquamarine;
+}
+
+.panel__login-block {
+    
+}
+
+.panel__control-block {
+    
+}
+
+.panel__form {
+    display: inline-block;
+}
+
+.popup {
+    position: absolute;
+    top: 10vh;
+    left: 10vw;
+    z-index: 10;
+    padding: 20px;
+    font-size: 16px;
+    color: black;
+    border: 2px solid gray;
+    border-radius: 4px;
+    background-color: blanchedalmond;
+}
