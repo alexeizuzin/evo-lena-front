@@ -2,9 +2,9 @@
     display: flex;
     justify-content: space-around;
     width: 100%;
-    padding: 10px;
+    padding: 10px 0;
     color: #ffffff;
-    background-color: slateblue;
+    background-color: lightgrey;
 }
 
 .panel_error {
@@ -33,14 +33,14 @@
 }
 
 .popup {
-    position: absolute;
+    /* position: absolute;
     top: 10vh;
     left: 10vw;
-    z-index: 10;
+    border: 2px solid gray;
+    z-index: 10; */
     padding: 20px;
     font-size: 16px;
     color: black;
-    border: 2px solid gray;
     border-radius: 4px;
     background-color: blanchedalmond;
 }

@@ -1,8 +1,5 @@
 .field {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    margin: 3vh 3vw;
+    display: grid;
 }
 
 .field__message {

@@ -1,8 +1,12 @@
 import { useCallback, useMemo, useState } from 'react';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
 
 import './style.css';
 
 const apiPath = ''; // http://v296823.hosted-by-vdsina.ru:5000/
+const regPath = 'user';
 const authPath = 'auth/login';
 const logoutPath = 'auth/logout';
 
@@ -76,9 +80,10 @@ function Panel() {
       });
   }, []);
 
+  const [regName, setRegName] = useState('');
   const [regLogin, setRegLogin] = useState('');
   const [regPassword, setRegPassword] = useState('');
-  const [regPasEmail, setRegEmail] = useState('');
+  const [regEmail, setRegEmail] = useState('');
 
   const handleRegLogin = function(event) {
     setRegLogin(event.target.value);
@@ -89,14 +94,39 @@ function Panel() {
   const handleRegEmail = function(event) {
     setRegEmail(event.target.value);
   };
-
-  const postRegistration = () => {
-
+  const handleRegName = function(event) {
+    setRegName(event.target.value);
   };
+
+  const regFormData = useMemo(() => {
+    let fData = new FormData();
+    fData.append('name', regName);
+    fData.append('email', regEmail);
+    fData.append('login', regLogin);
+    fData.append('psw', regPassword);
+    return fData;
+  }, [login, password]);
+
+  const postRegistration = useCallback(() => {
+    fetch( apiPath + regPath, {
+      method: 'POST',
+      body: regFormData,
+    })
+      .then(response => response.json())
+      .then((data) => {
+        console.log(' reg success> ', data);
+        setShowRegistration(false);
+        setIsError(false);
+      })
+      .catch((err) => {
+        console.log(' reg error> ', err);
+        setIsError(true);
+      });
+  }, [regFormData]);
 
   const handleRegForm = (e) => {
     e.preventDefault();
-    // postAuth();
+    postRegistration();
   };
 
   const [showRegistration, setShowRegistration] = useState(false);
@@ -109,7 +139,13 @@ function Panel() {
             <div className="panel__links">
               UserId: {userId}
               {' :: '}
-              <b onClick={logout} className="panel__link">Logout</b>
+              <Button
+                onClick={logout}
+                color="secondary"
+                variant="outlined"
+              >
+                Logout
+              </Button>
             </div>
           )
         }
@@ -121,10 +157,23 @@ function Panel() {
                 {' '}
                 <input type="password" placeholder="password" onChange={handlePassword} />
                 {' '}
-                <input type="submit" value="login" onClick={postAuth} />
+                <Button
+                  onClick={postAuth}
+                  color="primary"
+                  variant="outlined"
+                >
+                  Login
+                </Button>
               </form>
               {' '}
-              <b onClick={() => { setShowRegistration(true)}} className="panel__link">Register</b>
+
+              <Button
+                onClick={() => { setShowRegistration(true)}}
+                color="secondary"
+                variant="outlined"
+              >
+                Register
+              </Button>
             </div>
           )
         }
@@ -133,29 +182,53 @@ function Panel() {
         {
           !!isAuthorized && (
               <div className="panel__links">
-              <b onClick={() => { console.log('click')}} className="panel__link">Select sector</b>
+                <Button
+                  onClick={() => { console.log('click select sector')}}
+                  color="secondary"
+                  variant="outlined"
+                >
+                  Select sector
+                </Button>
+
               </div>
             )
           }
       </div>
         {
           !!showRegistration && (
-            <div className="popup">
-              <form onSubmit={handleRegForm} className="popup__form">
-                <label>usename:</label>
-                <input type="text" placeholder="login" onChange={handleRegLogin} />
-                <br/>
-                <label>password:</label>
-                <input type="password" placeholder="password" onChange={handleRegPassword} />
-                <br/>
-                <label>email:</label>
-                <input type="text" placeholder="email" onChange={handleRegEmail} />
-                <br/>
-                <input type="submit" value="Request registration" onClick={postRegistration} />
-              </form>
-              
-              <b onClick={() => { setShowRegistration(false) }} className="panel__link">close</b>
-            </div>
+            <Dialog
+              open={showRegistration}
+              onClose={() => { setShowRegistration(false) }}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogContent>
+                <form onSubmit={handleRegForm} className="popup__form">
+                  <label>Name:</label>
+                  <input type="text" placeholder="name" onChange={handleRegName} />
+                  <br/>
+                  <label>usename:</label>
+                  <input type="text" placeholder="login" onChange={handleRegLogin} />
+                  <br/>
+                  <label>password:</label>
+                  <input type="password" placeholder="password" onChange={handleRegPassword} />
+                  <br/>
+                  <label>email:</label>
+                  <input type="text" placeholder="email" onChange={handleRegEmail} />
+                  <br/>
+                  <input type="submit" value="Request registration" onClick={postRegistration} />
+                </form>
+
+                <Button
+                  onClick={() => { setShowRegistration(false) }}
+                  color="secondary"
+                  variant="outlined"
+                >
+                  Close
+                </Button>
+              </DialogContent>
+
+            </Dialog>
           )
         }
     </div>

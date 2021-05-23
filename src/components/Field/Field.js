@@ -13,7 +13,7 @@ function Field({
   const [sectors, setSectors] = useState([]);
   // console.log(' log 1: ', apiPath + sectorsPath);
   const handleSectorClick = (sector) => {
-    console.log('Sector: ', sector);
+    console.log('Sector: ', 'sector');
     setIsSelectable(false);
   }
 
@@ -21,7 +21,7 @@ function Field({
     fetch( apiPath + sectorsPath + `?${Math.random()}`, {})
       .then(response => response.json())
       .then((data) => {
-        console.log(' success> ', data);
+        console.log(' success> ', 'data');
         setSectors(data);
       })
       .catch((err) => {
@@ -32,7 +32,7 @@ function Field({
   useEffect(() => {
     const interval = setInterval(() => {
       updateSectors();
-    }, 3000);
+    }, 2000);
     return () => clearInterval(interval);
   }, [updateSectors]);
 
