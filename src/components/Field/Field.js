@@ -32,16 +32,16 @@ function Field({
   useEffect(() => {
     const interval = setInterval(() => {
       updateSectors();
-    }, 2000);
+    }, 4000);
     return () => clearInterval(interval);
   }, [updateSectors]);
 
   return (
     <div className={'field' + (isSelectable ? ' field_selectable' : '')}>
-      { sectors.map(sector => (
+      { sectors.map((sector, i) => (
         <Sector
           onClick={() => { handleSectorClick(sector) }}
-          key={sector.id}
+          key={ sector.position_top + '-' + sector.position_left + '-' + i}
           data={sector}
         />
       )) }

@@ -1,5 +1,6 @@
 .field {
     display: grid;
+    background-color: cadetblue;
 }
 
 .field__message {

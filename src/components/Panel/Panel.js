@@ -50,9 +50,15 @@ function Panel() {
     })
       .then(response => response.json())
       .then((data) => {
-        console.log(' auth success> ', data);
-        setIsAuthorized(true);
-        setIsError(false);
+        console.log(' auth success?> ', data);
+        if (data?.success) {
+          setIsAuthorized(true);
+          setIsError(false);
+        } else {
+          // to do warning
+          console.log(' auth warning> ', data.error);
+          setIsError(true);
+        }
       })
       .catch((err) => {
         console.log(' auth error> ', err);
@@ -71,8 +77,13 @@ function Panel() {
     })
       .then((data) => {
         console.log(' logout success> ', data);
-        setIsAuthorized(false);
-        setIsError(false);
+        if (data?.success) {
+          setIsAuthorized(false);
+          setIsError(false);
+        } else {
+          console.log(' logout warning> ', data.error);
+          setIsError(true);
+        }
       })
       .catch((err) => {
         console.log(' logout error> ', err);
@@ -105,7 +116,7 @@ function Panel() {
     fData.append('login', regLogin);
     fData.append('psw', regPassword);
     return fData;
-  }, [login, password]);
+  }, [regEmail, regLogin, regName, regPassword]);
 
   const postRegistration = useCallback(() => {
     fetch( apiPath + regPath, {
@@ -115,8 +126,14 @@ function Panel() {
       .then(response => response.json())
       .then((data) => {
         console.log(' reg success> ', data);
-        setShowRegistration(false);
-        setIsError(false);
+        if (data?.success) {
+          alert('Registration success, you can login now');
+          setShowRegistration(false);
+          setIsError(false);
+        } else {
+          console.log(' reg warning> ', data.error);
+          setIsError(true);
+        }
       })
       .catch((err) => {
         console.log(' reg error> ', err);
@@ -133,7 +150,7 @@ function Panel() {
 
   return (
     <div className={'panel' + (isError ? ' panel_error' : '')}>
-      <div class="panel__login-block">
+      <div className="panel__login-block">
         {
           !!isAuthorized && (
             <div className="panel__links">
@@ -178,7 +195,7 @@ function Panel() {
           )
         }
       </div>
-      <div class="panel__control-block">
+      <div className="panel__control-block">
         {
           !!isAuthorized && (
               <div className="panel__links">

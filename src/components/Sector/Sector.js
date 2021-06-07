@@ -13,19 +13,27 @@ function Sector({data}) {
   // console.log('p - ', data);
 
   return (
-    <div className={'sector sector_type' + data.type} style={blockStyle}>
+    <div
+      className={'sector sector_type' + data.type}
+      style={blockStyle}
+      key={ data.position_top + data.position_left}
+    >
       {/* { data.position_top }
       -
       { data.position_left } */}
       🍏 { data.food }
       <br/>
-      { !!data.creatures?.length && data.creatures.map(creature => {
+      { !!data.creatures?.length && data.creatures.map((creature, i) => {
         const isVegan = creature.skills[1] === '1';
         const isСarnivore = creature.skills[2] === '1';
         // isСarnivore && console.log(creature);
         const showRED = creature.user_id === 60;
         return (
-          <div className={'sector__creature' + (showRED ? ' sector__creature-red' : '' )} title={`💪[${ creature.skills }]`}>
+          <div
+            className={'sector__creature' + (showRED ? ' sector__creature-red' : '' )}
+            key={i}
+            title={`💪[${ creature.skills }]`}
+          >
             { isVegan && '🐮' }
             { isСarnivore && '🦁' }
             { !isСarnivore && !isVegan && '🐠' }
